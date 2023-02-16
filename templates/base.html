@@ -26,17 +26,43 @@
 <link href="{% static 'css/ui.css' %}" rel="stylesheet" type="text/css"/>
 <link href="{% static 'css/responsive.css' %}" rel="stylesheet" media="only screen and (max-width: 1200px)" />
 
+<link href="{% static 'css/custom.css' %}" rel="stylesheet" type="text/css"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 <!-- custom javascript -->
 <script src="{% static 'js/script.js'  %}" type="text/javascript"></script>
+
+
+
+<!-- PAYPAL -->
+<!-- en el link, test fue reemplazado por el Client ID APP & CREDENTIALS -->
+<script src="https://www.paypal.com/sdk/js?client-id=AarbMXmNP19yQ-kmPXAvLPAwDqKtAyymR5LoaYt_Hjs5LKNeHL6DiuGhnfjb28iMjC22gDAYl8_4l4Z5&currency=USD"></script>
+
+
 
 <script type="text/javascript">
 /// some script
 
 // jquery ready start
+
+
 $(document).ready(function() {
 	// jQuery code
+	
+
+	
+	//Esto define cuanto tiempo tardará el mensaje en desaparecer
+setTimeout(function(){
+    //El mensaje desaparecera lento
+    $('#message').fadeOut('slow')
+// 5000 = 5 segundos
+}, 5000)
+
 
 }); 
+
+
+
 // jquery end
 </script>
 
@@ -57,3 +83,7 @@ $(document).ready(function() {
 
 <!--Aqui incluye toda la parte inferior de la pagina que se llama footer -->    
 {% include 'includes/footer.html' %}
+
+
+<!-- BASE.HTML INCLUYE TODO, PIE DE PAGINA, PAGINA SUPERIOR,JSS, todo listo -->
+<!-- para agregarlo a una pagina del template -->

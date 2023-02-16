@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+<!-- ========================= SECTION CONTENT ========================= -->
+<section class="section-conten padding-y bg">
+    {% include 'includes/alerts.html' %}
+
+    <div class="container">
+        <div class="row">
+        <!-- Este es el sideboard, lo traigo de includes/dashboard_sidebar.html -->
+        {% include 'includes/dashboard_sidebar.html' %}
+        
+        <main class="col-md-9">
+            <article class="card">
+            <header class="card-header">
+                <strong class="d-inline-block mr-3">Editar perfil</strong>
+                <div class="text-center">
+                    <!--  #La imagen se envia desde la accounts/views.py/ la funcion edit_profile -->
+                    <!-- Si quiero enviar la imagen a otro template, debo trabajar en su respectiva funcion y agregarle el codigo -->
+                    <img src="{{userprofile.profile_picture.url}}" alt="Imagen de perfil" width="100" style="border-radius: 50%;">
+                 </div>
+            </header>
+            <div class="card-body">
+            
+                <div class="row">
+                    <div class="col-md-12">
+                                               <!-- Este form lleva enctype multipart para que acepte archivos-->
+                        <form class="" action="{% url 'edit_profile' %}" method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label>Nombre</label>
+                                    {{ user_form.first_name }}
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label>Apellidos</label>
+                                    {{ user_form.last_name }}
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label>Numero telefonico</label>
+                                    {{ user_form.phone_number }}
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label>Imagen de perfil</label>
+                                    {{ profile_form.profile_picture }}
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label>Dirección</label>
+                                    {{ profile_form.address_line_1 }}
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label>Detalles de dirección</label>
+                                    {{ profile_form.address_line_2 }}
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group col-md-4">
+                                    <label>Ciudad</label>
+                                    {{ profile_form.city }}
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>Departamento</label>
+                                    {{ profile_form.state }}
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>Pais</label>
+                                    {{ profile_form.country }}
+                                </div>
+                            </div>
+
+
+                            <input type="submit" name="" value="Guardar" class="btn btn-primary">
+
+
+                        </form>
+
+                    </div>
+
+                </div>
+            </div> <!-- card-body .// -->
+
+            </article> <!-- order-group.// --> 
+        </main>
+    </div> <!-- row.// -->
+    </div>
+    
+    
+    </section>
+    <!-- ========================= SECTION CONTENT END// ========================= -->
+
+{% endblock %}

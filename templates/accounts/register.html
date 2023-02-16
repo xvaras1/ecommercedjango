@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<!DOCTYPE HTML>
+<html lang="en">
+ 
+<body>
+
+<!-- ========================= SECTION CONTENT ========================= -->
+<section class="section-content padding-y">
+
+<!-- ============================ COMPONENT REGISTER   ================================= -->
+	<div class="card mx-auto" style="max-width:520px; margin-top:40px;">
+      <article class="card-body">
+        <!-- CON ESTO INCLUYO LAS ALERTAS A ESTA PAGINA -->
+        {% include 'includes/alerts.html' %}
+
+
+		<header class="mb-4"><h4 class="card-title">Registro de usuario</h4></header>
+		<form action="{% url 'register'%}" method="POST">
+            <!-- Esto hace que el metodo post funcione -->
+            {% csrf_token %}  
+
+
+				<div class="form-row">
+					<div class="col form-group">
+						<label>Nombre</label>
+					  	{{ form.first_name }}
+					</div> <!-- form-group end.// -->
+					<div class="col form-group">
+						<label>Apellido</label>
+                        {{ form.last_name }}
+					</div> <!-- form-group end.// -->
+				</div> <!-- form-row end.// -->
+
+                <div class="form-row">
+					<div class="col form-group">
+						<label>Numero Telefonico</label>
+                        <!-- con from.phone_number invoco el cuadro para ingresar los datos desde form.py en accounts -->
+					  	{{ form.phone_number }}
+					</div> <!-- form-group end.// -->
+					<div class="col form-group">
+						<label>Email</label>
+                        <!-- con from.phone_email invoco el cuadro para ingresar los datos desde form.py en accounts -->
+                        {{ form.email }}
+					</div> <!-- form-group end.// -->
+				</div> <!-- form-row end.// -->
+			
+				
+				<div class="form-row">
+					<div class="form-group col-md-6">
+						<label>Crear contraseña</label>
+                        <!-- con from.phone_password invoco el cuadro para ingresar los datos desde forms.py en accounts -->
+					    {{ form.password }}
+					</div> <!-- form-group end.// --> 
+					<div class="form-group col-md-6">
+						<label>Repetir contraseña</label>
+					    {{ form.confirm_password }}
+					</div> <!-- form-group end.// -->  
+				</div>
+			    <div class="form-group">
+			        <button type="submit" class="btn btn-primary btn-block"> Register  </button>
+			    </div> <!-- form-group// -->   
+                    <!-- ESTO LLAMARA LOS ERRORES QUE PUEDAN DAR AL INGRESAR MAL LOS DATOS, CREADO EN forms.py "funcion clean" -->   
+			        {{ form.email.errors }}
+					{{ form.non_field_errors }}
+				
+			</form>
+		</article><!-- card-body.// -->
+    </div> <!-- card .// -->
+    <p class="text-center mt-4">Ya tienes una cuenta? <a href="{% url 'login' %}">Ingresa aqui</a></p>
+    <br><br>
+<!-- ============================ COMPONENT REGISTER  END.// ================================= -->
+
+
+</section>
+<!-- ========================= SECTION CONTENT END// ========================= -->
+
+
+<!-- ========================= FOOTER ========================= -->
+<footer class="section-footer border-top padding-y">
+	<div class="container">
+		<p class="float-md-right"> 
+			&copy Copyright 2019 All rights reserved
+		</p>
+		<p>
+			<a href="#">Terms and conditions</a>
+		</p>
+	</div><!-- //container -->
+</footer>
+<!-- ========================= FOOTER END // ========================= -->
+
+
+
+</body>
+</html>
+
+{% endblock %}

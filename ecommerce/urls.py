@@ -19,11 +19,18 @@ from . import views
 from django.conf.urls.static import static
 from django.conf import settings
 
-
+""" al final va el nombre de la app.urls """
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    #Esta es la pagina de admin, la modificaré para evitar intentos de hackeos, mientras más compleja mejor 
+    path('securelogin/', admin.site.urls),
+    #Falso admin, del pip instalado honeypot, la version de 2021 para evitar errores de migrate
+    # con el pip instale está version django-admin-honeypot-updated-2021
+    path('admin/', include('admin_honeypot.urls', namespace='admin_honeypot')),
     path('', views.home, name="home"),
-    path('store/', include('store.urls'))
+    path('store/', include('store.urls')),
+    path('cart/', include('carts.urls')),
+    path('accounts/', include('accounts.urls')),
+    path('orders/', include('orders.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 

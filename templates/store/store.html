@@ -132,9 +132,10 @@
                 </header><!-- sect-heading -->
 
                 <div class="row">
-
+                    <!-- este if hará que en el caso de que no hayan productos, no se muestren y muestre un mensaje que esta abajo -->
+                    {% if products %}
+                    <!-- Esto es un ciclo for para mostrar productos -->
                     {% for product in products %}
-
                     <div class="col-md-4">
                         <figure class="card card-product-grid">
                             <div class="img-wrap">
@@ -153,25 +154,58 @@
                                         
                                     </div> <!-- price-wrap.// -->
                                 </div>
-                                <a href="#" class="btn btn-block btn-success">Agregar al carrito </a>
+                                <a href="{% url 'add_cart' product.id %}" class="btn btn-block btn-success">Agregar al carrito </a>
                             </figcaption>
                         </figure>
                     </div> <!-- col.// -->
-
                     {% endfor %}
+                    {% else %}
+                    <div>
+                        <h2> No se encontraron resultados </h2>
+                    </div>
+                    {% endif %}
 
 
                 </div> <!-- row end.// -->
 
 
                 <nav class="mt-4" aria-label="Page navigation sample">
+
+                    <!-- El paginador no se mostrará cuando no haya más productos de 5 o dependiendo lo que elijas-->
+                    <!-- Esto es una funcion del paginator -->
+                    {% if products.has_other_pages %}
                     <ul class="pagination">
+                        <!-- Esto hace que cuando un usuario este en la pagina 1, el boton anterior este deshabilitado -->    
+                        {% if products.has_previous %}
+                        <!-- con esto en el href voy a la pagina anterior, también es necesario quitar el disabled que ya lo hice -->
+                        <li class="page-item"><a class="page-link" href="?page={{ products.previous_page_number }}">Anterior</a></li>
+                        {% else %}
                         <li class="page-item disabled"><a class="page-link" href="#">Anterior</a></li>
-                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item"><a class="page-link" href="#">Siguiente</a></li>
+                        {% endif %}
+
+                        <!-- Esto creará el numero de paginaciones de forma automatica -->
+                        {% for i in products.paginator.page_range %}
+                            
+                        <!-- esto hará que si estoy en la pagina 1, el boton 1 estará deshabilitado -->
+                            {% if products.number == i %}
+                            <li class="page-item active"><a class="page-link" href="#">{{ i }}</a></li>
+                            {% else %}
+                            <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                            {% endif %}
+                        
+                        {% endfor %}
+
+                        <!-- hará lo mismo que el boton anterior, pero en siguiente, al llegar al limite se deshabilita -->
+                        {% if products.has_next %}
+                        <!-- boton siguiente habilitado-->
+                        <li class="page-item"><a class="page-link" href="?page={{ products.next_page_number }}">Siguiente</a></li>
+                        {% else %}
+                        <!-- boton deshabilitado -->
+                        <li class="page-item disabled"><a class="page-link" href="#">Siguiente</a></li>
+                        {% endif %}
+
                     </ul>
+                    {% endif %}
                 </nav>
 
             </main> <!-- col.// -->

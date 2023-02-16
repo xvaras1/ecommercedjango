@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
+#Importo la herramienta que instalé de python
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,12 +22,18 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-$^rwa8wdy_kgux=er^^c7%fw$j^a%+^z9g68+*$sd9@3&zul9a'
+#Esto lo modifiqué, ahora lee el secret key en el archivo .env
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+#Esto también lo movi al .env
+#El config por defecto envia valores string desde el env, por eso en ciertos aspectos
+#Hay que modificarlo, en este caso le asigno que sea de tipo boolean para debug, es obligatorio
+#El default también es obligatorio o no funcionará
+DEBUG = config('DEBUG', cast=bool, default=True)
 
-ALLOWED_HOSTS = []
+#Esto es el CNAME, al crear ecommerce con el eb con el tema de amazon
+ALLOWED_HOSTS = ['http://ecommerce-env.eba-wnzgnmi3.us-west-2.elasticbeanstalk.com/']
 
 
 # Application definition
@@ -40,8 +48,12 @@ INSTALLED_APPS = [
     'accounts',
     'category',
     'store',
+    'carts',
+    'orders',
+    'admin_honeypot',
 ]
 
+#Aqui instaló la app instalada llamada session, para cerrar sesion cuando está inactivo
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -50,7 +62,15 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django_session_timeout.middleware.SessionTimeoutMiddleware'
 ]
+
+#Cuantos segundos tomará para cerrar sesion estando inactivo, en este caso, 1 hora
+SESSION_EXPIRE_SECONDS = 3600
+#Esto es para que se el contador se active después de la ultima actividad
+SESSION_EXPIRE_AFTER_LAST_ACTIVITY = True
+#Aqui redireccionará cuando finalize el contador
+SESSION_TIMEOUT_REDIRECT = 'accounts/login'
 
 ROOT_URLCONF = 'ecommerce.urls'
 #-------------------------------------------------------------------------------------------------aqui agrego la carpeta templates en DIRS
@@ -67,6 +87,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'category.context_processors.menu_links',
+                'carts.context_processors.counter',
             ],
         },
     },
@@ -130,6 +151,27 @@ STATICFILES_DIRS =[
 
 MEDIA_URL ='/media/'
 MEDIA_ROOT = BASE_DIR /'media'
+
+
+#Esto hace que los mensajes de error incorporen los estilos de bootstrap, en este caso el estilo de danger para todas las paginas
+from django.contrib.messages import constants as messages
+MESSAGE_TAGS = {
+    messages.ERROR:'danger'
+}
+
+#El email del proyecto, donde se enviar los correos a los clientes por defecto
+#EMAIL_HOST = 'smtp.gmail.com'
+#EMAIL_PORT = 587
+#EMAIL_HOST_USER = 'franciscovaras100@gmail.com'
+#EMAIL_HOST_PASSWORD = 'xevnaeevyapksdkb'
+#EMAIL_USE_TLS = True
+
+#Aqui también lo cambie para que los datos se envien desde .env
+EMAIL_HOST = config('EMAIL_HOST')
+EMAIL_PORT = config('EMAIL_PORT', cast=int)
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
+EMAIL_USE_TLS = config('EMAIL_USE_TLS', cast=bool)
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field

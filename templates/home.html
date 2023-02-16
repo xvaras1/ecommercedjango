@@ -9,7 +9,7 @@
 <!-- ========================= SECTION MAIN ========================= -->
 <section class="section-intro padding-y-sm">
 <div class="container">
-
+{% include 'includes/alerts.html' %}
 <div class="intro-banner-wrap">
 	<img src="{% static 'images/banners/banner01.jpg'  %}" class="img-fluid rounded">
 </div>
@@ -37,7 +37,21 @@
 			<a href="{{ product.get_url }}" class="img-wrap"> <img src="{{ product.images.url }}"> </a>
 			<figcaption class="info-wrap">
 				<a href="{{ product.get_url }}" class="title">{{ product.product_name }}</a>
-				<div class="price mt-1">{{ product.price }}</div> <!-- price-wrap.// -->
+				<div class="price mt-1">${{ product.price }}</div> <!-- price-wrap.// -->
+				<!-- Aqui estan las reseñas en forma de estrellas -->
+				<div class="rating-star">
+					<span>
+					<!-- Las reviews vienen de ecommerce/views.py/funcion home -->
+											<!-- Aqui lleva product. por el bucle for que se llama asi -->
+					  <i class="fa fa-star{% if product.averageReview < 0.5 %}-o{% elif product.averageReview >= 0.5 and product.averageReview < 1 %}-half-o{% endif %}" aria-hidden="True"></i>
+					  <i class="fa fa-star{% if product.averageReview < 1.5 %}-o{% elif product.averageReview >= 1.5 and productt.averageReview < 2 %}-half-o{% endif %}" aria-hidden="True"></i>              
+					  <i class="fa fa-star{% if product.averageReview < 2.5 %}-o{% elif product.averageReview >= 2.5 and product.averageReview < 3 %}-half-o{% endif %}" aria-hidden="True"></i>             
+					  <i class="fa fa-star{% if product.averageReview < 3.5 %}-o{% elif product.averageReview >= 3.5 and product.averageReview < 4 %}-half-o{% endif %}" aria-hidden="True"></i>
+					  <i class="fa fa-star{% if product.averageReview < 4.5 %}-o{% elif product.averageReview >= 4.5 and product.averageReview < 5 %}-half-o{% endif %}" aria-hidden="True"></i>
+					</span>
+				  </div>
+
+
 			</figcaption>
 		</div>
 	</div> <!-- col.// -->

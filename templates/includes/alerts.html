@@ -1,0 +1,26 @@
+<!-- Esto aparecera siempre y cuando aparezca algun mensaje-->
+{% if messages %}
+
+
+<!-- Recuerda que estos estilos(container) vienen incorporados en este proyecto por defecto -->
+<div id="message" class="container">
+
+    {% for message in messages %}
+    <!-- para saber si es mensaje de error o de confirmacion de evento, coloco message.tags-->
+    <div {% if message.tags %} class="alert alert-{{ message.tags }}" {% endif %} role="alert">
+        <!-- Lleva un if para asegurar que haya un tags y evitar errores -->
+
+        <!-- Esto es en caso de que el mensaje sea importante, por eso el if -->
+        {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %} Importante: {% endif %}
+        {{ message }}
+
+    </div>
+    {% endfor %}
+    
+</div>
+
+
+
+
+
+{% endif %}
