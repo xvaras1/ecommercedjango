@@ -33,7 +33,7 @@ SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', cast=bool, default=True)
 
 #Esto es el CNAME, al crear ecommerce con el eb con el tema de amazon
-ALLOWED_HOSTS = ['http://ecommerce-env.eba-wnzgnmi3.us-west-2.elasticbeanstalk.com/']
+ALLOWED_HOSTS = ['https://www.ecommerce-env.eba-wnzgnmi3.us-west-2.elasticbeanstalk.com/']
 
 
 # Application definition
